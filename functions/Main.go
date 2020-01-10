@@ -4,9 +4,12 @@ import (
 	"bufio"
 	"github.com/fatih/color"
 	"github.com/phayes/freeport"
+	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
@@ -134,4 +137,13 @@ func FreePort() int {
 	// port is ready to listen on
 
 	return port
+}
+
+func ServeStaticHttp(port int) {
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/", fs)
+
+	log.Println("Listening... :" + strconv.Itoa(port))
+	http.ListenAndServe(":"+strconv.Itoa(port), nil)
+
 }

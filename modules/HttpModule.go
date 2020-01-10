@@ -19,10 +19,24 @@ func ParseHttpModule(args []string) {
 			break
 		case "free":
 			freePort()
+			break
+		case "serve":
+			serve(functions.FreePort())
+			break
 		}
 	}
 }
 
+/**
+static serve current directory
+*/
+func serve(port int) {
+	functions.ServeStaticHttp(port)
+}
+
+/**
+get a free port
+*/
 func freePort() {
 	functions.Verbose("open port : " + strconv.Itoa(functions.FreePort()))
 }
