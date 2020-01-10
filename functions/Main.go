@@ -139,6 +139,9 @@ func FreePort() int {
 	return port
 }
 
+/**
+http static serve on given port
+*/
 func ServeStaticHttp(port int) {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/", fs)
