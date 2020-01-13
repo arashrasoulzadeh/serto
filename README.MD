@@ -8,3 +8,9 @@ ser(ver)to(ols) is a small go-lang application to ease the setup-maintenance of 
 go build 
 ```
 note that included binary file is built in mac-os 
+
+to do : 
+- [ ] socket proxy
+- [ ] http proxy
+- [ ] php ini kv set 
+- [ ] php ini kv get
