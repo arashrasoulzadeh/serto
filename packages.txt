@@ -1,3 +1,4 @@
 go get github.com/fatih/color
 go get github.com/tcnksm/go-input
 go get github.com/phayes/freeport
+go get https://github.com/caarlos0/spin

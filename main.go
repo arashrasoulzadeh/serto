@@ -12,6 +12,8 @@ func command(args []string) {
 	if has_command {
 		command := args[1]
 		switch command {
+		case "info":
+			loadInfoModule()
 		case "http":
 			loadHttpModule()
 			break
@@ -21,9 +23,20 @@ func command(args []string) {
 	}
 }
 
+/**
+load http module
+*/
 func loadHttpModule() {
 	modules.ParseHttpModule(os.Args)
 }
+
+/**
+load info module
+*/
+func loadInfoModule() {
+	modules.ParseInfoModule(os.Args)
+}
+
 func main() {
 	//_os := functions.ClientOS()
 	//color.Green("Your operating system is %s", _os)
