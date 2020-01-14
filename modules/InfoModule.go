@@ -15,7 +15,7 @@ func ParseInfoModule(args []string) {
 		command := args[2]
 		switch command {
 		case "ip":
-			myPublicIp()
+			MyPublicIp()
 			break
 		}
 
@@ -32,7 +32,7 @@ type myPublicIpStruct struct {
 /**
 show your public ip
 */
-func myPublicIp() {
+func MyPublicIp() {
 
 	ip := functions.GETRequest("https://api.ipify.org/?format=json")
 	var jsonData myPublicIpStruct
@@ -42,4 +42,10 @@ func myPublicIp() {
 		functions.ErrorAndDie("there was an error getting data.")
 	}
 	functions.Verbose("Your Public ip is " + jsonData.IP)
+	geo := functions.IpGeolocation(jsonData.IP)
+	functions.Verbose("Country : " + geo.COUNTRY_NAME)
+	functions.Verbose("Code    : " + geo.COUNTRY_CODE)
+	functions.Verbose("Lat     : " + geo.LAT)
+	functions.Verbose("Lon     : " + geo.LON)
+
 }

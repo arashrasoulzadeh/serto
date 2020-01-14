@@ -2,6 +2,7 @@ package functions
 
 import (
 	"bufio"
+	"encoding/json"
 	"github.com/fatih/color"
 	"github.com/phayes/freeport"
 	"log"
@@ -149,4 +150,25 @@ func ServeStaticHttp(port int) {
 	log.Println("Listening... :" + strconv.Itoa(port))
 	http.ListenAndServe(":"+strconv.Itoa(port), nil)
 
+}
+
+type IpGeolocationStruct struct {
+	COUNTRY_NAME string `json:"geoplugin_countryName"`
+	COUNTRY_CODE string `json:"geoplugin_countryCode"`
+	LAT          string `json:"geoplugin_latitude"`
+	LON          string `json:"geoplugin_longitude"`
+}
+
+/**
+get an ip geo location data
+*/
+func IpGeolocation(ip_address string) IpGeolocationStruct {
+	ip := GETRequest("http://www.geoplugin.net/json.gp?ip=" + ip_address)
+	var jsonData IpGeolocationStruct
+	err := json.Unmarshal([]byte(ip), &jsonData)
+
+	if err != nil {
+		ErrorAndDie("there was an error getting data.")
+	}
+	return jsonData
 }
