@@ -3,6 +3,7 @@ package modules
 import (
 	"encoding/json"
 	"github.com/arashrasoulzadeh/serto.git/functions"
+	"os"
 )
 
 /**
@@ -33,19 +34,24 @@ type myPublicIpStruct struct {
 show your public ip
 */
 func MyPublicIp() {
+	args := os.Args
+	geo := functions.IpGeolocationStruct{}
+	if len(args) == 3 {
+		ip := functions.GETRequest("https://api.ipify.org/?format=json")
+		var jsonData myPublicIpStruct
+		err := json.Unmarshal([]byte(ip), &jsonData)
 
-	ip := functions.GETRequest("https://api.ipify.org/?format=json")
-	var jsonData myPublicIpStruct
-	err := json.Unmarshal([]byte(ip), &jsonData)
-
-	if err != nil {
-		functions.ErrorAndDie("there was an error getting data.")
+		if err != nil {
+			functions.ErrorAndDie("there was an error getting data.")
+		}
+		functions.Verbose("Your Public ip is " + jsonData.IP)
+		geo = functions.IpGeolocation(jsonData.IP)
+	} else {
+		ip := args[3]
+		geo = functions.IpGeolocation(ip)
 	}
-	functions.Verbose("Your Public ip is " + jsonData.IP)
-	geo := functions.IpGeolocation(jsonData.IP)
 	functions.Verbose("Country : " + geo.COUNTRY_NAME)
 	functions.Verbose("Code    : " + geo.COUNTRY_CODE)
 	functions.Verbose("Lat     : " + geo.LAT)
 	functions.Verbose("Lon     : " + geo.LON)
-
 }
