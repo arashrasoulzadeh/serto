@@ -3,8 +3,7 @@ package functions
 import (
 	"bufio"
 	"encoding/json"
-	"github.com/fatih/color"
-	"github.com/phayes/freeport"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -12,9 +11,14 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+
+	"github.com/fatih/color"
+	"github.com/inancgumus/screen"
+	"github.com/phayes/freeport"
 )
 
 var processor = "serto"
+var clear map[string]func() //create a map for storing clear funcs
 
 /**
 verbose output to stdout
@@ -171,4 +175,25 @@ func IpGeolocation(ip_address string) IpGeolocationStruct {
 		ErrorAndDie("there was an error getting data.")
 	}
 	return jsonData
+}
+
+/**
+call clear terminal
+*/
+func CallClear() {
+	// Clears the screen
+	screen.Clear()
+	screen.MoveTopLeft()
+}
+
+// pretty print the contents of the obj
+func PrettyPrint(data interface{}) {
+	var p []byte
+	//    var err := error
+	p, err := json.MarshalIndent(data, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%s \n", p)
 }

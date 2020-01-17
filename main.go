@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/arashrasoulzadeh/serto.git/functions"
 	"github.com/arashrasoulzadeh/serto.git/modules"
-	"os"
 )
 
 func command(args []string) {
@@ -17,6 +18,9 @@ func command(args []string) {
 		case "http":
 			loadHttpModule()
 			break
+		case "os":
+			loadOsModule()
+			break
 		default:
 			functions.ErrorAndDie("Invalid Module " + command)
 		}
@@ -28,6 +32,13 @@ load http module
 */
 func loadHttpModule() {
 	modules.ParseHttpModule(os.Args)
+}
+
+/**
+load os module
+*/
+func loadOsModule() {
+	modules.ParseOSModule(os.Args)
 }
 
 /**
