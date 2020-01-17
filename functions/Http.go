@@ -3,7 +3,6 @@ package functions
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -57,10 +56,10 @@ func GetPublicIP() PublicIpStruct {
 http static serve on given port
 */
 func ServeStaticHttp(port int) {
-	fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir(""))
 	http.Handle("/", fs)
 
-	log.Println("Listening... :" + strconv.Itoa(port))
+	Verbose(strconv.Itoa(port))
 	http.ListenAndServe(":"+strconv.Itoa(port), nil)
 
 }
