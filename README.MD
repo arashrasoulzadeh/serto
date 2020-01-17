@@ -9,7 +9,13 @@ go build
 ```
 note that included binary file is built in mac-os 
 
-to do : 
+# How to 
+- [HTTP Module](docs/http-module)
+- [OS Module](docs/os-module)
+- [Info Module](docs/info-module)
+
+
+TODO : 
 - [ ] socket proxy
 - [ ] http proxy
 - [ ] php ini kv set 
