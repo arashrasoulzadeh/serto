@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"fmt"
 	"runtime"
 	"time"
 
@@ -16,8 +17,8 @@ func ParseOSModule(args []string) {
 		case "monitor":
 			NewMonitor(1)
 			break
-		case "stats":
-			Stats()
+		case "free":
+			FreeSpace(args)
 			break
 		}
 
@@ -78,8 +79,17 @@ func NewMonitor(duration int) {
 }
 
 /**
-system stats
+show Free Space
 */
-func stats() {
+func FreeSpace(args []string) {
+	path := functions.GetArgOrDefault(4, "/")
+	disk := functions.DiskUsage(path)
+	if functions.IsJsonOutput() {
+		functions.PrettyPrint(disk)
+	} else {
+		functions.Verbose(fmt.Sprintf("Total : %.2f GB", float64(disk.All)/float64(functions.GB)))
+		functions.Verbose(fmt.Sprintf("Used  : %.2f GB", float64(disk.Used)/float64(functions.GB)))
+		functions.Verbose(fmt.Sprintf("Free  : %.2f GB", float64(disk.Free)/float64(functions.GB)))
+	}
 
 }

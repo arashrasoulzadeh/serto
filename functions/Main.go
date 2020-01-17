@@ -23,7 +23,7 @@ var clear map[string]func() //create a map for storing clear funcs
 /**
 verbose output to stdout
 */
-func Verbose(msg string) {
+func Verbose(msg interface{}) {
 	color.Green("%s => %s", processor, msg)
 }
 
@@ -196,4 +196,38 @@ func PrettyPrint(data interface{}) {
 		return
 	}
 	fmt.Printf("%s \n", p)
+}
+
+// Contains tells whether a contains x.
+func Contains(a []string, x string) bool {
+	for _, n := range a {
+		if x == n {
+			return true
+		}
+	}
+	return false
+}
+
+/**
+is json flag added
+*/
+func IsJsonOutput() bool {
+	args := os.Args
+	return Contains(args, "--json")
+}
+
+/**
+get argument if set and default string if not
+*/
+func GetArgOrDefault(index int, default_value string) string {
+	args := os.Args
+	if len(args) == index {
+		value := args[index-1]
+		if strings.HasPrefix(value, "--") {
+			return default_value
+		} else {
+			return args[index-1]
+		}
+	}
+	return default_value
 }
