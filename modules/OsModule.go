@@ -45,6 +45,7 @@ type Monitor struct {
 start monitoring
 */
 func NewMonitor(duration int) {
+	functions.NoJsonSupport()
 	var m Monitor
 	var rtm runtime.MemStats
 	var interval = time.Duration(duration) * time.Second

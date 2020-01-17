@@ -1,8 +1,9 @@
 package modules
 
 import (
-	"github.com/arashrasoulzadeh/serto.git/functions"
 	"strconv"
+
+	"github.com/arashrasoulzadeh/serto.git/functions"
 )
 
 /**
@@ -21,7 +22,8 @@ func ParseHttpModule(args []string) {
 			freePort()
 			break
 		case "serve":
-			serve(functions.FreePort())
+			free_port := functions.FreePort()
+			serve(free_port.Port)
 			break
 		}
 	}
@@ -31,6 +33,12 @@ func ParseHttpModule(args []string) {
 static serve current directory
 */
 func serve(port int) {
+	functions.NoJsonSupport()
+	port_string := functions.GetArgOrDefault(4, strconv.Itoa(port))
+	port, err := strconv.Atoi(port_string)
+	if err != nil {
+		functions.ErrorAndDie("invalid port ")
+	}
 	functions.ServeStaticHttp(port)
 }
 
@@ -38,7 +46,12 @@ func serve(port int) {
 get a free port
 */
 func freePort() {
-	functions.Verbose("open port : " + strconv.Itoa(functions.FreePort()))
+	port := functions.FreePort()
+	if functions.IsJsonOutput() {
+		functions.PrettyPrint(port)
+	} else {
+		functions.Verbose("open port : " + strconv.Itoa(port.Port))
+	}
 }
 
 /**

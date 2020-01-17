@@ -1,9 +1,6 @@
 package modules
 
 import (
-	"encoding/json"
-	"os"
-
 	"github.com/arashrasoulzadeh/serto.git/functions"
 )
 
@@ -25,34 +22,19 @@ func ParseInfoModule(args []string) {
 }
 
 /**
-public ip json struct
-*/
-type myPublicIpStruct struct {
-	IP string `json:"ip"`
-}
-
-/**
 show your public ip
 */
 func MyPublicIp() {
-	args := os.Args
 	geo := functions.IpGeolocationStruct{}
-	if len(args) == 3 {
-		ip := functions.GETRequest("https://api.ipify.org/?format=json")
-		var jsonData myPublicIpStruct
-		err := json.Unmarshal([]byte(ip), &jsonData)
-
-		if err != nil {
-			functions.ErrorAndDie("there was an error getting data.")
-		}
-		functions.Verbose("Your Public ip is " + jsonData.IP)
-		geo = functions.IpGeolocation(jsonData.IP)
+	public_ip := functions.GetPublicIP()
+	ip := functions.GetArgOrDefault(4, public_ip.IP)
+	geo = functions.IpGeolocation(ip)
+	if functions.IsJsonOutput() {
+		functions.PrettyPrint(geo)
 	} else {
-		ip := args[3]
-		geo = functions.IpGeolocation(ip)
+		functions.Verbose("Country : " + geo.COUNTRY_NAME)
+		functions.Verbose("Code    : " + geo.COUNTRY_CODE)
+		functions.Verbose("Lat     : " + geo.LAT)
+		functions.Verbose("Lon     : " + geo.LON)
 	}
-	functions.Verbose("Country : " + geo.COUNTRY_NAME)
-	functions.Verbose("Code    : " + geo.COUNTRY_CODE)
-	functions.Verbose("Lat     : " + geo.LAT)
-	functions.Verbose("Lon     : " + geo.LON)
 }

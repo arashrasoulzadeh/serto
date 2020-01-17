@@ -131,17 +131,26 @@ func CheckPort(port string) bool {
 }
 
 /**
+get a free port (struct)
+*/
+type FreePostStruct struct {
+	Port int
+}
+
+/**
 get a free tcp port
 */
-func FreePort() int {
+func FreePort() FreePostStruct {
 
+	free_port := FreePostStruct{}
 	port, err := freeport.GetFreePort()
 	if err != nil {
-		return 0
+		free_port.Port = 0
+		return free_port
 	}
 	// port is ready to listen on
-
-	return port
+	free_port.Port = port
+	return free_port
 }
 
 /**
@@ -161,6 +170,7 @@ type IpGeolocationStruct struct {
 	COUNTRY_CODE string `json:"geoplugin_countryCode"`
 	LAT          string `json:"geoplugin_latitude"`
 	LON          string `json:"geoplugin_longitude"`
+	IP           string `json:"geoplugin_request"`
 }
 
 /**
@@ -221,13 +231,26 @@ get argument if set and default string if not
 */
 func GetArgOrDefault(index int, default_value string) string {
 	args := os.Args
-	if len(args) == index {
+	if len(args) >= index {
 		value := args[index-1]
 		if strings.HasPrefix(value, "--") {
-			return default_value
+			if len(args) > index {
+				return GetArgOrDefault(index+1, default_value)
+			} else {
+				return default_value
+			}
 		} else {
 			return args[index-1]
 		}
 	}
 	return default_value
+}
+
+/**
+indicate that this method does not support json output
+*/
+func NoJsonSupport() {
+	if IsJsonOutput() {
+		ErrorAndDie("this method does not support JSON output")
+	}
 }
