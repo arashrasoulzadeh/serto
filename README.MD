@@ -10,9 +10,9 @@ go build
 note that included binary file is built in mac-os 
 
 # How to 
-- [HTTP Module](docs/http-module)
-- [OS Module](docs/os-module)
-- [Info Module](docs/info-module)
+- [HTTP Module](docs/http-module.MD)
+- [OS Module](docs/os-module.MD)
+- [Info Module](docs/info-module.MD)
 
 
 TODO : 
