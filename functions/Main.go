@@ -4,12 +4,9 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net"
-	"net/http"
 	"os"
 	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/fatih/color"
@@ -151,18 +148,6 @@ func FreePort() FreePostStruct {
 	// port is ready to listen on
 	free_port.Port = port
 	return free_port
-}
-
-/**
-http static serve on given port
-*/
-func ServeStaticHttp(port int) {
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/", fs)
-
-	log.Println("Listening... :" + strconv.Itoa(port))
-	http.ListenAndServe(":"+strconv.Itoa(port), nil)
-
 }
 
 type IpGeolocationStruct struct {

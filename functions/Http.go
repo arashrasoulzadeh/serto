@@ -3,7 +3,9 @@ package functions
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/caarlos0/spin"
 )
@@ -49,4 +51,16 @@ func GetPublicIP() PublicIpStruct {
 		ErrorAndDie("there was an error getting public ip.")
 	}
 	return jsonData
+}
+
+/**
+http static serve on given port
+*/
+func ServeStaticHttp(port int) {
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/", fs)
+
+	log.Println("Listening... :" + strconv.Itoa(port))
+	http.ListenAndServe(":"+strconv.Itoa(port), nil)
+
 }
