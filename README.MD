@@ -4,8 +4,8 @@ ser(ver)to(ols) is a small go-lang application to ease the setup-maintenance of 
  
  # build
  to build run 
- ```
-go build 
+```
+	go build 
 ```
 note that included binary file is built in mac-os 
 
@@ -14,6 +14,7 @@ note that included binary file is built in mac-os
 - [OS Module](docs/os-module.MD)
 - [Info Module](docs/info-module.MD)
 
+` almost in all commands you can provide --json flag to output the json command `
 
 TODO : 
 - [ ] socket proxy
